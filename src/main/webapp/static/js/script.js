@@ -10,6 +10,7 @@ $(function() {
         } else {
             val = val - 1;
         }
+        $.LoadingOverlay("show");
         $.ajax({
             url: "sm/c/api/update",
             type: "POST",
@@ -23,6 +24,7 @@ $(function() {
                 alert(err + "(이)가 발생했습니다: " + status);
             }
         });
+        $.LoadingOverlay("hide");
         $(inputSec).val(val);
     });
     //checkbox toggle.
