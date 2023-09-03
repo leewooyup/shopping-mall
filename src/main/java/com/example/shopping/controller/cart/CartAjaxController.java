@@ -64,4 +64,16 @@ public class CartAjaxController {
         session.setAttribute("excludedSet", excludedSet);
         return "redirect:/sm/c/api/get";
     }
+
+    @PostMapping("/api/update")
+    public String updateItemQuantity(@RequestBody Map<String, Object> requestData) {
+        int itemQuantityInt = (Integer)requestData.get("itemQuantity");
+        int cartIdInt = (Integer)requestData.get("cartId");
+        long itemQuantity = Long.valueOf(itemQuantityInt);
+        long cartId = Long.valueOf(cartIdInt);
+        cart_log.info("itemQuantity: " + itemQuantity);
+        cart_log.info("cartId: " + cartId);
+        cartService.modifyItemQuantity(cartId, itemQuantity);
+        return "redirect:/sm/c/api/get";
+    }
 }
