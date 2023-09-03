@@ -66,9 +66,9 @@ public class CartAjaxController {
     }
 
     @PostMapping("/api/update")
-    public String updateItemQuantity(@RequestBody Map<String, Object> requestData) {
-        int itemQuantityInt = (Integer)requestData.get("itemQuantity");
-        int cartIdInt = (Integer)requestData.get("cartId");
+    public String updateItemQuantity(@RequestBody Map<String, String> requestData) {
+        int cartIdInt = Integer.parseInt((String)requestData.get("cartId"));
+        int itemQuantityInt = Integer.parseInt((String)requestData.get("itemQuantity"));
         long itemQuantity = Long.valueOf(itemQuantityInt);
         long cartId = Long.valueOf(cartIdInt);
         cart_log.info("itemQuantity: " + itemQuantity);

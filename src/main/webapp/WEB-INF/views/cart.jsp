@@ -80,7 +80,7 @@
                                         <div class="quantity d-flex flex-row">
                                             <i class="btn-decrease fa-solid fa-chevron-left" data-item="${cartItem.itemId}" data-id="${cartItem.cartId}" style="color:gray;padding-top:5px;"></i>
                                             <input type="text" value="${cartItem.itemQuantity}" class="input-quantity input-quantity-${cartItem.itemId} mx-3" />
-                                            <i class="btn-increase fa-solid fa-chevron-right" style="color:gray;padding-top:5px;"></i>
+                                            <i class="btn-increase fa-solid fa-chevron-right" data-item="${cartItem.itemId}" data-id="${cartItem.cartId}" style="color:gray;padding-top:5px;"></i>
                                         </div>
                                     </td>
                                     <td class="cart__price">

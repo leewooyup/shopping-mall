@@ -4,7 +4,7 @@ $(function() {
         let cur = $(this).data("item");
         let cart = $(this).data("id");
         let inputSec = ".input-quantity-" + cur;
-        let val = $(inputSec).val();
+        let val = parseInt($(inputSec).val());
         if(val == 1) {
             val = 1;
         } else {
@@ -14,7 +14,32 @@ $(function() {
         $.ajax({
             url: "sm/c/api/update",
             type: "POST",
-            data: JSON.stringify({"cartId": cart, "itemQuantity" : val}),
+            data: JSON.stringify({"cartId": cart, "itemQuantity": val}),
+            contentType: "application/json",
+            success: function(result) {
+                $("#std-parents").html(result);
+            },
+            error: function(xhr, err, status) {
+                console.log(xhr.responseText);
+                alert(err + "(이)가 발생했습니다: " + status);
+            }
+        });
+        $.LoadingOverlay("hide");
+        $(inputSec).val(val);
+    });
+    $(".btn-increase").on("click", function() {
+        let cur = $(this).data("item");
+        let cart = $(this).data("id");
+//        cart = parseInt(cart);
+//        cur = parseInt(cur);
+        let inputSec = ".input-quantity-" + cur;
+        let val = parseInt($(inputSec).val());
+        val = val + 1;
+        $.LoadingOverlay("show");
+        $.ajax({
+            url: "/sm/c/api/update",
+            type: "POST",
+            data: JSON.stringify({"cartId": cart, "itemQuantity": val}),
             contentType: "application/json",
             success: function(result) {
                 $("#std-parents").html(result);
