@@ -1,0 +1,11 @@
+.input-quantity {
+    width: 45px;
+    border: 1px #EEEEEE solid;
+    border-radius: 5px;
+    text-align: right;
+    padding: 0 6px;
+}
+
+.btn-decrease, .btn-increase, .btn-delete {
+    cursor: pointer;
+}
