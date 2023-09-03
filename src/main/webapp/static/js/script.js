@@ -30,8 +30,6 @@ $(function() {
     $(".btn-increase").on("click", function() {
         let cur = $(this).data("item");
         let cart = $(this).data("id");
-//        cart = parseInt(cart);
-//        cur = parseInt(cur);
         let inputSec = ".input-quantity-" + cur;
         let val = parseInt($(inputSec).val());
         val = val + 1;
@@ -52,6 +50,34 @@ $(function() {
         $.LoadingOverlay("hide");
         $(inputSec).val(val);
     });
+    $(".input-quantity").keypress(function(event) {
+        if(event.which === 13) { //Enter 키의 key code는 13.
+            let cart = $(this).data("id");
+            let val = parseInt($(this).val());
+            if(val > 999) {
+                val = 999;
+            } else if(val < 1) {
+                val = 1;
+            }
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: "/sm/c/api/update",
+                type: "POST",
+                data: JSON.stringify({"cartId": cart, "itemQuantity" : val}),
+                contentType: "application/json",
+                success: function(result) {
+                    $("#std-parents").html(result);
+                },
+                error: function(xhr, err, status) {
+                    console.log(xhr.responseText);
+                    alert(err +"(이)가 발생했습니다: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+            $(this).val(val);
+        }
+    });
+
     //checkbox toggle.
     $(".check-box").change(function() {
         let cur = $(this).data("id");
