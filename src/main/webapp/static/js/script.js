@@ -55,6 +55,7 @@ $(function() {
     });
     //item quantity increase, decrease input
     $(".btn-decrease").on("click", function() {
+        let nowPage = parseInt($("#page-now").val());
         let cur = $(this).data("item");
         let cart = $(this).data("id");
         let inputSec = ".input-quantity-" + cur;
@@ -68,7 +69,7 @@ $(function() {
         $.ajax({
             url: "sm/c/api/update",
             type: "POST",
-            data: JSON.stringify({"cartId": cart, "itemQuantity": val}),
+            data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity": val}),
             contentType: "application/json",
             success: function(result) {
                 $("#std-parents").html(result);
@@ -82,6 +83,7 @@ $(function() {
         $(inputSec).val(val);
     });
     $(".btn-increase").on("click", function() {
+        let nowPage = parseInt($("#page-now").val());
         let cur = $(this).data("item");
         let cart = $(this).data("id");
         let inputSec = ".input-quantity-" + cur;
@@ -91,7 +93,7 @@ $(function() {
         $.ajax({
             url: "/sm/c/api/update",
             type: "POST",
-            data: JSON.stringify({"cartId": cart, "itemQuantity": val}),
+            data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity": val}),
             contentType: "application/json",
             success: function(result) {
                 $("#std-parents").html(result);
@@ -105,6 +107,7 @@ $(function() {
         $(inputSec).val(val);
     });
     $(".input-quantity").keypress(function(event) {
+        let nowPage = parseInt($("#page-now").val());
         if(event.which === 13) { //Enter 키의 key code는 13.
             let cart = $(this).data("id");
             let val = parseInt($(this).val());
@@ -117,7 +120,7 @@ $(function() {
             $.ajax({
                 url: "/sm/c/api/update",
                 type: "POST",
-                data: JSON.stringify({"cartId": cart, "itemQuantity" : val}),
+                data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity" : val}),
                 contentType: "application/json",
                 success: function(result) {
                     $("#std-parents").html(result);
@@ -134,6 +137,7 @@ $(function() {
 
     //checkbox toggle.
     $(".check-box").change(function() {
+        let nowPage = parseInt($("#page-now").val());
         let cur = $(this).data("id");
         let checkbox = ".check-box-" + cur;
         if(!$(checkbox).is(":checked")) { //체크 풀었을 때
@@ -141,7 +145,7 @@ $(function() {
             $.ajax({
                 url: "/sm/c/api/v1",
                 type: "POST",
-                data: JSON.stringify({ "excludedItemId" : cur}),
+                data: JSON.stringify({ "nowPage": nowPage, "excludedItemId" : cur}),
                 contentType: "application/json",
                 success: function(result) {
                     $("#std-parents").html(result);
@@ -155,7 +159,7 @@ $(function() {
             $.ajax({
                 url: "/sm/c/api/v2",
                 type: "POST",
-                data: JSON.stringify({ "includedItemId" : cur}),
+                data: JSON.stringify({ "nowPage": nowPage, "includedItemId" : cur}),
                 contentType: "application/json",
                 success: function(result) {
                     $("#std-parents").html(result);

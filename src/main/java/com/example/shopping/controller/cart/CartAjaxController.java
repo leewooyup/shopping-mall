@@ -45,6 +45,8 @@ public class CartAjaxController {
     }
     @PostMapping("/api/v1")
     public String addUnchecked(@RequestBody Map<String, Object> requestData, HttpSession session) {
+        Long sessionConsumerId = 2L;//hard coding.
+        int nowPage = (Integer)requestData.get("nowPage");
         int excludedItemIdInt = (Integer)requestData.get("excludedItemId");
         long excludedItemId = Long.valueOf(excludedItemIdInt);
         cart_log.info("excludedItemId: " + Long.valueOf(excludedItemId));
@@ -56,11 +58,14 @@ public class CartAjaxController {
         //세션에 업데이트된 HashSet 저장
         session.setAttribute("excludedSet", excludedSet);
 
+        pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
     }
 
     @PostMapping("/api/v2")
     public String removeUnchecked(@RequestBody Map<String, Object> requestData, HttpSession session) {
+        Long sessionConsumerId = 2L;//hard coding.
+        int nowPage = (Integer)requestData.get("nowPage");
         int includedItemIdInt = (Integer)requestData.get("includedItemId");
         long includedItemId = Long.valueOf(includedItemIdInt);
         //HashSet에 check된 itemId 빼기
@@ -68,11 +73,15 @@ public class CartAjaxController {
         excludedSet.remove(includedItemId);
         //세션에 업데이트된 HashSet 저장
         session.setAttribute("excludedSet", excludedSet);
+
+        pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
     }
 
     @PostMapping("/api/update")
     public String updateItemQuantity(@RequestBody Map<String, String> requestData) {
+        Long sessionConsumerId = 2L;//hard coding.
+        int nowPage = Integer.parseInt((String)requestData.get("nowPage"));
         int cartIdInt = Integer.parseInt((String)requestData.get("cartId"));
         int itemQuantityInt = Integer.parseInt((String)requestData.get("itemQuantity"));
         long itemQuantity = Long.valueOf(itemQuantityInt);
@@ -80,6 +89,7 @@ public class CartAjaxController {
         cart_log.info("itemQuantity: " + itemQuantity);
         cart_log.info("cartId: " + cartId);
         cartService.modifyItemQuantity(cartId, itemQuantity);
+        pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
     }
 

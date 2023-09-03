@@ -58,6 +58,7 @@
     </div>
     <div class="container d-flex justify-content-center">
         <div class="paging">
+            <input id="page-now" type="hidden" value="${pager.paging.pageNo}" />
             <input id="page-begin" type="hidden" value="${pager.beginPage}" />
             <input id="page-end" type="hidden" value="${pager.endPage}" />
             <ul class="d-flex flex-row">
@@ -95,7 +96,7 @@
                 <c:set var="discountRate" value="0" /><!--hard coding.-->
                 <c:set var="sum" value="0" />
                 <c:set var="sumDiscount" value="0" />
-                <c:forEach items="${foundItemDtos}" var="cartItem">
+                <c:forEach items="${foundItemDtoAll}" var="cartItem">
                     <c:set var="discounted" value="${cartItem.subTotalPrice - (cartItem.subTotalPrice * discountRate)}" />
                     <c:if test="${cartItem.isExcluded == false}">
                         <li>${cartItem.itemName} <span style="color:#424242;font-weight:bolder;font-size:15px;"><fmt:formatNumber value="${discounted}" pattern="#,##0" />원</span></li>
