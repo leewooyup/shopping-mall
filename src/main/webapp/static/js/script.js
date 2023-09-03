@@ -1,7 +1,44 @@
 $(function() {
+//    let nowPageGlobal = parseInt($("#page-now").val());
+
     //pagination.
     $(".page-no").on("click", function() {
         let nowPage = $(this).data("page");
+        $.ajax({
+            url: "/sm/c/api/page",
+            type: "POST",
+            data: JSON.stringify({"nowPage": nowPage}),
+            contentType: "application/json",
+            success: function(result) {
+                $("#std-parents").html(result);
+            },
+            error: function(xhr, err, status) {
+                console.log(xhr.responseText);
+                alert(err + "(이)가 발생했습니다: " + status);
+            }
+        });
+    });
+    $("#page-next").on("click", function() {
+        let endPage = parseInt($("#page-end").val());
+        let nowPage = endPage + 1;
+        console.log("nowPage: ", nowPage);
+        $.ajax({
+            url: "/sm/c/api/page",
+            type: "POST",
+            data: JSON.stringify({"nowPage": nowPage}),
+            contentType: "application/json",
+            success: function(result) {
+                $("#std-parents").html(result);
+            },
+            error: function(xhr, err, status) {
+                console.log(xhr.responseText);
+                alert(err + "(이)가 발생했습니다: " + status);
+            }
+        });
+    });
+    $("#page-prev").on("click", function() {
+        let beginPage = parseInt($("#page-begin").val());
+        let nowPage = beginPage - 1;
         $.ajax({
             url: "/sm/c/api/page",
             type: "POST",

@@ -84,7 +84,6 @@ public class CartService {
     }
 
     public CartPager setUpPaging(CartPageVo vo, Integer size) {
-
         CartPager pager = new CartPager();
         pager.setUpPaging(vo);
         pager.setUpCartItemSize(size);
