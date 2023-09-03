@@ -1,4 +1,21 @@
 $(function() {
+    //pagination.
+    $(".page-no").on("click", function() {
+        let nowPage = $(this).data("page");
+        $.ajax({
+            url: "/sm/c/api/page",
+            type: "POST",
+            data: JSON.stringify({"nowPage": nowPage}),
+            contentType: "application/json",
+            success: function(result) {
+                $("#std-parents").html(result);
+            },
+            error: function(xhr, err, status) {
+                console.log(xhr.responseText);
+                alert(err + "(이)가 발생했습니다: " + status);
+            }
+        });
+    });
     //item quantity increase, decrease input
     $(".btn-decrease").on("click", function() {
         let cur = $(this).data("item");

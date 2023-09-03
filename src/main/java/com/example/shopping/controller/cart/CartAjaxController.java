@@ -1,6 +1,8 @@
 package com.example.shopping.controller.cart;
 
 import com.example.shopping.domain.cart.CartItem;
+import com.example.shopping.domain.cart.CartPageVo;
+import com.example.shopping.domain.cart.CartPager;
 import com.example.shopping.dto.cart.CartItemDto;
 import com.example.shopping.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
@@ -8,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
@@ -25,16 +24,23 @@ import java.util.Set;
 public class CartAjaxController {
     private final Logger cart_log = LoggerFactory.getLogger(CartAjaxController.class);
     private final CartService cartService;
+    private CartPageVo pageVo;
 
     @GetMapping("/api/get")
     public String showComponent(Model model, HttpSession session) {
         cart_log.info("Cart Component here");
         Long sessionConsumerId = 2L;//hard coding.
-        List<CartItem> foundedCartItem = cartService.showByConsumerId(sessionConsumerId);
+        List<CartItem> foundCartItemAll = cartService.showByConsumerId(sessionConsumerId);
+        List<CartItem> foundCartItems = cartService.showByConsumerIdWithPaging(pageVo);
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
 
-        List<CartItemDto> foundItemDtos = cartService.mapToDto(foundedCartItem, excludedSet);
+        List<CartItemDto> foundItemDtoAll = cartService.mapToDto(foundCartItemAll, excludedSet);
+        List<CartItemDto> foundItemDtos = cartService.mapToDto(foundCartItems, excludedSet);
+
+        CartPager pager = cartService.setUpPaging(pageVo, foundCartItemAll.size());
+        model.addAttribute("foundItemDtoAll", foundItemDtoAll);
         model.addAttribute("foundItemDtos", foundItemDtos);
+        model.addAttribute("pager", pager);
         return "cart_component";
     }
     @PostMapping("/api/v1")
@@ -74,6 +80,15 @@ public class CartAjaxController {
         cart_log.info("itemQuantity: " + itemQuantity);
         cart_log.info("cartId: " + cartId);
         cartService.modifyItemQuantity(cartId, itemQuantity);
+        return "redirect:/sm/c/api/get";
+    }
+
+    @PostMapping("/api/page")
+    public String movePage(@RequestBody Map<String, String> requestData) {
+        Long sessionConsumerId = 2L;//hard coding.
+        int nowPage = Integer.parseInt((String)requestData.get("nowPage"));
+        cart_log.info("nowPage: " + nowPage);
+        pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
     }
 }

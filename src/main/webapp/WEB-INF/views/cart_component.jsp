@@ -57,15 +57,17 @@
         </table>
     </div>
     <div class="container d-flex justify-content-center">
-        <div>
+        <div class="paging">
             <ul class="d-flex flex-row">
-                <li style="list-style: none;"><a href="#" id="page-prev" class="btn btn-light">Prev</a></li>
-                <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light">1</a></li>
-                <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light">2</a></li>
-                <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light">3</a></li>
-                <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light">4</a></li>
-                <li style="list-style: none;" class="mx-1"><a href="#" class="btn btn-light">5</a></li>
-                <li style="list-style: none;"><a href="#" id="page-next" class="btn btn-light">Next</a></li>
+                <c:if test="${pager.prev}">
+                    <li style="list-style: none;"><a href="#" id="page-prev" class="btn btn-light">Prev</a></li>
+                </c:if>
+                <c:forEach var="no" begin="${pager.beginPage}" end="${pager.endPage}">
+                    <li style="list-style: none;" class="mx-1"><a href="#" class="page-no btn btn-light" data-page="${no}">${no}</a></li>
+                </c:forEach>
+                <c:if test="${pager.next}">
+                    <li style="list-style: none;"><a href="#" id="page-next" class="btn btn-light">Next</a></li>
+                </c:if>
             </ul>
         </div>
     </div>

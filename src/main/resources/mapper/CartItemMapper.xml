@@ -16,6 +16,12 @@
             WHERE cart_id = #{cartId}
         </if>
     </select>
+    <select id="selectListWithPaging" parameterType="CartPageVo" resultType="CartItem">
+        SELECT *
+        FROM cart_item
+        WHERE consumer_id = #{consumerId}
+        LIMIT #{itemStartNo}, #{amount}
+    </select>
     <update id="updateItemQuantityByCartId" parameterType="CartUpdateVo">
         UPDATE cart_item
         SET item_quantity=#{itemQuantity}
