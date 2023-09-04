@@ -250,7 +250,6 @@ $(function() {
         $("#input-order").val(datas);
         let val = String($("#input-order").val()).trim();
         if(val == "") {
-            console.log("val equals []")
             alert("장바구니 상품을 1개 이상 선택해주세요.");
             return false;
         }
