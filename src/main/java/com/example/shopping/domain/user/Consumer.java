@@ -1,4 +1,4 @@
-package com.example.shopping.domain.consumer;
+package com.example.shopping.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

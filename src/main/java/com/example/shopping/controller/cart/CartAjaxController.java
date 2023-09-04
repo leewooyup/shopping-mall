@@ -3,7 +3,7 @@ package com.example.shopping.controller.cart;
 import com.example.shopping.domain.cart.CartItem;
 import com.example.shopping.domain.cart.CartPageVo;
 import com.example.shopping.domain.cart.CartPager;
-import com.example.shopping.domain.consumer.Consumer;
+import com.example.shopping.domain.user.Consumer;
 import com.example.shopping.dto.cart.CartItemDto;
 import com.example.shopping.service.cart.CartService;
 import com.example.shopping.util.Util;

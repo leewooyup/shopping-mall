@@ -1,8 +1,7 @@
 package com.example.shopping.util;
 
-import com.example.shopping.domain.consumer.Consumer;
+import com.example.shopping.domain.user.Consumer;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class Util {
