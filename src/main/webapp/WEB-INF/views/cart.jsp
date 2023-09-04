@@ -138,7 +138,10 @@
                         <c:forEach items="${foundItemDtoAll}" var="cartItem">
                             <c:set var="discounted" value="${cartItem.subTotalPrice - (cartItem.subTotalPrice * discountRate)}" />
                             <c:if test="${cartItem.isExcluded == false}">
-                                <li>${cartItem.itemName} <span style="color:#424242;font-weight:bolder;font-size:15px;"><fmt:formatNumber value="${discounted}" pattern="#,##0" />원</span></li>
+                                <input class="checked-item" type="hidden" value="${cartItem.itemId}" />
+                                <input class="checked-cart" type="hidden" value="${cartItem.cartId}" />
+                                <input class="checked-quantity" type="hidden" value="${cartItem.itemQuantity}" />
+                                <li class="checked-name" data-name="${cartItem.itemName}">${cartItem.itemName} <span style="color:#424242;font-weight:bolder;font-size:15px;" class="checked-discounted"><fmt:formatNumber value="${discounted}" pattern="#,##0" />원</span></li>
                                 <c:set var="sumDiscount" value="${sumDiscount + (cartItem.subTotalPrice * discountRate)}" />
                                 <c:set var="sum" value="${sum + discounted}" />
                             </c:if>
@@ -148,7 +151,7 @@
                         <li>상품금액 <span style="color:#424242;font-weight:bolder;font-size:15px;"> <fmt:formatNumber value="${sum}" pattern="#,##0" />원</span></li>
                     </ul>
                     <form id="form-order" action="/order" method="post">
-                        <input type="hidden" name="orderItemDtoList" class="input-order"/>
+                        <input type="text" name="orderItemDtoList" id="input-order"/>
                         <button type="submit" class="primary-btn w-100">주문하기</button>
                     </form>
                 </div>

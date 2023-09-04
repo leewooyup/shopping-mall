@@ -47,6 +47,7 @@ public class CartController {
 
         //세션에서 excludedSet 가져오기
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
+        cart_log.info("excludedSet: " + excludedSet);
 
         List<CartItemDto> foundItemDtoAll = cartService.mapToDto(foundCartItemAll, excludedSet);
         List<CartItemDto> foundItemDtos = cartService.mapToDto(foundCartItems, excludedSet);

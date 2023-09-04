@@ -34,6 +34,7 @@ public class CartAjaxController {
         List<CartItem> foundCartItems = cartService.showByConsumerIdWithPaging(pageVo);
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
 
+        cart_log.info("excludedSet: " + excludedSet);
         List<CartItemDto> foundItemDtoAll = cartService.mapToDto(foundCartItemAll, excludedSet);
         List<CartItemDto> foundItemDtos = cartService.mapToDto(foundCartItems, excludedSet);
 
@@ -73,7 +74,6 @@ public class CartAjaxController {
         excludedSet.remove(includedItemId);
         //세션에 업데이트된 HashSet 저장
         session.setAttribute("excludedSet", excludedSet);
-
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
     }

@@ -194,4 +194,65 @@ $(function() {
             });
         }
     });
+
+    //order button click.
+    $("#form-order").submit(function(event){
+        event.preventDefault();
+        let itemIdArr = [];
+        let itemNameArr = [];
+        let itemQuantityArr = [];
+        let eachDiscountedArr = [];
+        let cartIdArr = [];
+
+        $(".checked-item").each(function(){
+            let itemId = $(this).val();
+            itemIdArr.push(itemId);
+        });
+
+        $(".checked-name").each(function() {
+            let itemName = $(this).data("name");
+            itemNameArr.push(itemName);
+        });
+
+        $(".checked-quantity").each(function() {
+            let itemQuantity = $(this).val();
+            itemQuantityArr.push(itemQuantity);
+        });
+
+        $(".checked-discounted").each(function(){
+            let eachDiscounted = $(this).text();
+            eachDiscounted = eachDiscounted.replace(/,/g, '');
+            eachDiscounted = eachDiscounted.replace(/원/g, '');
+            eachDiscountedArr.push(eachDiscounted);
+        });
+
+        $(".checked-cart").each(function() {
+            let cartId = $(this).val();
+            cartIdArr.push(cartId);
+        });
+
+        let datas = [];
+        for(let i = 0; i < itemIdArr.length; i++) {
+            let jsonFormat = {};
+            jsonFormat["itemId"] = itemIdArr[i];
+            jsonFormat["itemName"] = itemNameArr[i];
+            jsonFormat["itemQuantity"] = itemQuantityArr[i];
+            jsonFormat["itemPrice"] = eachDiscountedArr[i];
+            jsonFormat["cartId"] = cartIdArr[i];
+            datas.push(jsonFormat);
+        }
+
+        for(let i = 0; i < datas.length; i++) {
+            let jsonData = JSON.stringify(datas[i]);
+            console.log("each: " + jsonData);
+        }
+        let jsonData = JSON.stringify(datas);
+        $("#input-order").val(datas);
+        let val = String($("#input-order").val()).trim();
+        if(val == "") {
+            console.log("val equals []")
+            alert("장바구니 상품을 1개 이상 선택해주세요.");
+            return false;
+        }
+    });
 });
