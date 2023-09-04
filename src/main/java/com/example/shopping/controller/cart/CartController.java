@@ -12,7 +12,6 @@ import com.example.shopping.dto.cart.PutInCartDto;
 import com.example.shopping.service.cart.CartService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,25 +33,20 @@ import java.util.Set;
 public class CartController {
     private final Logger cart_log = LoggerFactory.getLogger(CartController.class);
     private final CartService cartService;
+    private CartPageVo pageVo;
 
-//    @GetMapping
-//    @ResponseBody
-//    public String test() {
-//        return "Hello world";
-//    }
     @GetMapping
     public String show(HttpSession session, Model model) {
         long sessionConsumerId = 2L;//hard coding.
 
         List<CartItem> foundCartItemAll = cartService.showByConsumerId(sessionConsumerId);
 
-        CartPageVo vo = new CartPageVo(1, sessionConsumerId);
-        List<CartItem> foundCartItems = cartService.showByConsumerIdWithPaging(vo);
-        CartPager pager = cartService.setUpPaging(vo, foundCartItemAll.size());
+        pageVo = new CartPageVo(1, sessionConsumerId);
+        List<CartItem> foundCartItems = cartService.showByConsumerIdWithPaging(pageVo);
+        CartPager pager = cartService.setUpPaging(pageVo, foundCartItemAll.size());
 
         //세션에서 excludedSet 가져오기
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
-        cart_log.info("excludedSet: " + excludedSet);
 
         List<CartItemDto> foundItemDtoAll = cartService.mapToDto(foundCartItemAll, excludedSet);
         List<CartItemDto> foundItemDtos = cartService.mapToDto(foundCartItems, excludedSet);
@@ -65,11 +59,14 @@ public class CartController {
 
     @PostMapping("/insert")
     public String registerItem(@RequestParam String jsonString) {
+        long sessionConsumerId = 2L;//hard coding.
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             //JSON 문자열을 Java 객체로 변환
             PutInCartDto putInCartDto = objectMapper.readValue(jsonString, PutInCartDto.class);
             //insert logic.
+            cartService.register(putInCartDto, sessionConsumerId);
+            pageVo = new CartPageVo(1, sessionConsumerId);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

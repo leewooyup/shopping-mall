@@ -19,7 +19,6 @@ $(function() {
     $("#page-next").on("click", function() {
         let endPage = parseInt($("#page-end").val());
         let nowPage = endPage + 1;
-        console.log("nowPage: ", nowPage);
         $.ajax({
             url: "/sm/c/api/page",
             type: "POST",
@@ -112,8 +111,6 @@ $(function() {
         let inputSec = ".input-quantity-" + cur;
         let val = parseInt($(inputSec).val());
         val = val + 1;
-        console.log("cur: ", cur);
-        console.log("increase val: ", val);
         $.LoadingOverlay("show");
         $.ajax({
             url: "/sm/c/api/update",
@@ -243,7 +240,7 @@ $(function() {
             jsonFormat["cartId"] = cartIdArr[i];
             datas.push(jsonFormat);
         }
-
+        //test console log.
         for(let i = 0; i < datas.length; i++) {
             let jsonData = JSON.stringify(datas[i]);
             console.log("each: " + jsonData);

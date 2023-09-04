@@ -29,12 +29,11 @@ public class CartAjaxController {
     @GetMapping("/api/get")
     public String showComponent(Model model, HttpSession session) {
         cart_log.info("Cart Component here");
-        Long sessionConsumerId = 2L;//hard coding.
+        long sessionConsumerId = 2L;//hard coding.
         List<CartItem> foundCartItemAll = cartService.showByConsumerId(sessionConsumerId);
         List<CartItem> foundCartItems = cartService.showByConsumerIdWithPaging(pageVo);
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
 
-        cart_log.info("excludedSet: " + excludedSet);
         List<CartItemDto> foundItemDtoAll = cartService.mapToDto(foundCartItemAll, excludedSet);
         List<CartItemDto> foundItemDtos = cartService.mapToDto(foundCartItems, excludedSet);
 
@@ -50,7 +49,6 @@ public class CartAjaxController {
         int nowPage = (Integer)requestData.get("nowPage");
         int excludedItemIdInt = (Integer)requestData.get("excludedItemId");
         long excludedItemId = Long.valueOf(excludedItemIdInt);
-        cart_log.info("excludedItemId: " + Long.valueOf(excludedItemId));
 
         //HashSet에 uncheck된 itemId 담기
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
@@ -86,8 +84,6 @@ public class CartAjaxController {
         int itemQuantityInt = Integer.parseInt((String)requestData.get("itemQuantity"));
         long itemQuantity = Long.valueOf(itemQuantityInt);
         long cartId = Long.valueOf(cartIdInt);
-        cart_log.info("itemQuantity: " + itemQuantity);
-        cart_log.info("cartId: " + cartId);
         cartService.modifyItemQuantity(cartId, itemQuantity);
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
@@ -97,7 +93,6 @@ public class CartAjaxController {
     public String movePage(@RequestBody Map<String, String> requestData) {
         Long sessionConsumerId = 2L;//hard coding.
         int nowPage = Integer.parseInt((String)requestData.get("nowPage"));
-        cart_log.info("nowPage: " + nowPage);
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
     }
@@ -108,7 +103,6 @@ public class CartAjaxController {
         int cartIdInt = Integer.parseInt((String)requestData.get("cartId"));
         int nowPage = Integer.parseInt((String)requestData.get("nowPage"));
         long cartId = Long.valueOf(cartIdInt);
-        cart_log.info("cartId: " + cartId);
         cartService.removeByCartId(cartId);
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
