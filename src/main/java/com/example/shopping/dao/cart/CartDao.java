@@ -12,4 +12,5 @@ public interface CartDao {
     List<CartItem> selectListWithPaging(CartPageVo vo);
     void updateItemQuantityByCartId(CartUpdateVo vo);
     void deleteByCartId(Long cartId);
+    void insert(CartInsertVo vo);
 }

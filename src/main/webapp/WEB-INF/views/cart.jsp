@@ -40,7 +40,9 @@
 <section class="shopping-cart spad">
     <div class="container">
         <div class="row" id="std-parents">
+            <!-- cart_component replace start. -->
             <jsp:include page="/WEB-INF/views/cart_component.jsp" />
+            <!-- cart_component replace end. -->
         </div>
     </div>
 </section>

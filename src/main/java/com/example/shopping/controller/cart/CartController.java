@@ -8,13 +8,18 @@ import com.example.shopping.domain.cart.CartItem;
 import com.example.shopping.domain.cart.CartPageVo;
 import com.example.shopping.domain.cart.CartPager;
 import com.example.shopping.dto.cart.CartItemDto;
+import com.example.shopping.dto.cart.PutInCartDto;
 import com.example.shopping.service.cart.CartService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -56,5 +61,18 @@ public class CartController {
         model.addAttribute("foundItemDtos", foundItemDtos);
         model.addAttribute("pager", pager);
         return "cart";
+    }
+
+    @PostMapping("/insert")
+    public String registerItem(@RequestParam String jsonString) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            //JSON 문자열을 Java 객체로 변환
+            PutInCartDto putInCartDto = objectMapper.readValue(jsonString, PutInCartDto.class);
+            //insert logic.
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/sm/c/api/get";
     }
 }

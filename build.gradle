@@ -35,6 +35,9 @@ dependencies {
 	// jsp view resolver.
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'javax.servlet:jstl'
+
+	// jackson-databind
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.2'
 }
 
 tasks.named('test') {

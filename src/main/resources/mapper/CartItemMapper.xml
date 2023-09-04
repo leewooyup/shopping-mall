@@ -22,6 +22,9 @@
         WHERE consumer_id = #{consumerId}
         LIMIT #{itemStartNo}, #{amount}
     </select>
+    <insert id="insert" parameterType="CartInsertVo">
+        INSERT INTO cart_item VALUES(#{itemId}, #{itemQuantity}, nextval('cart_seq'), #{consumerId})
+    </insert>
     <update id="updateItemQuantityByCartId" parameterType="CartUpdateVo">
         UPDATE cart_item
         SET item_quantity=#{itemQuantity}

@@ -1,6 +1,7 @@
 package com.example.shopping;
 
 import com.example.shopping.domain.cart.CartItem;
+import com.example.shopping.dto.cart.PutInCartDto;
 import com.example.shopping.service.cart.CartService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,19 +27,19 @@ public class CartItemTests {
     @BeforeEach
     public void setUpTestData() throws SQLException {
         jdbcTemplate.execute("TRUNCATE cart_item");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(5,9,3,2), (12,1,1,2), (13, 10, 2, 2), (14, 3, 4, 2), (15, 28, 5, 2)");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(16,1,6,2), (17,1,7,2), (18, 12, 8, 2), (19, 2, 9, 2), (20, 5, 10, 2)");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(21,4,11,2), (22,1,12,2), (23, 2, 13, 2), (24, 12, 14, 2), (25, 3, 15, 2)");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(26,6,16,2), (27,1,17,2);");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(5,9,nextval('cart_seq'),2), (12,1,nextval('cart_seq'),2), (13, 10, nextval('cart_seq'), 2), (14, 3, nextval('cart_seq'), 2), (15, 28, nextval('cart_seq'), 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(16,1,nextval('cart_seq'),2), (17,1,nextval('cart_seq'),2), (18, 12, nextval('cart_seq'), 2), (19, 2, nextval('cart_seq'), 2), (20, 5, nextval('cart_seq'), 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(21,4,nextval('cart_seq'),2), (22,1,nextval('cart_seq'),2), (23, 2, nextval('cart_seq'), 2), (24, 12, nextval('cart_seq'), 2), (25, 3, nextval('cart_seq'), 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(26,6,nextval('cart_seq'),2), (27,1,nextval('cart_seq'),2);");
     }
 
     @AfterEach
     public void tearDownTestData() throws SQLException {
         jdbcTemplate.execute("TRUNCATE cart_item");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(5,9,3,2), (12,1,1,2), (13, 10, 2, 2), (14, 3, 4, 2), (15, 28, 5, 2)");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(16,1,6,2), (17,1,7,2), (18, 12, 8, 2), (19, 2, 9, 2), (20, 5, 10, 2)");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(21,4,11,2), (22,1,12,2), (23, 2, 13, 2), (24, 12, 14, 2), (25, 3, 15, 2)");
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(26,6,16,2), (27,1,17,2);");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(5,9,nextval('cart_seq'),2), (12,1,nextval('cart_seq'),2), (13, 10, nextval('cart_seq'), 2), (14, 3, nextval('cart_seq'), 2), (15, 28, nextval('cart_seq'), 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(16,1,nextval('cart_seq'),2), (17,1,nextval('cart_seq'),2), (18, 12, nextval('cart_seq'), 2), (19, 2, nextval('cart_seq'), 2), (20, 5, nextval('cart_seq'), 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(21,4,nextval('cart_seq'),2), (22,1,nextval('cart_seq'),2), (23, 2, nextval('cart_seq'), 2), (24, 12, nextval('cart_seq'), 2), (25, 3, nextval('cart_seq'), 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(26,6,nextval('cart_seq'),2), (27,1,nextval('cart_seq'),2);");
     }
 
     @Test
@@ -60,5 +61,15 @@ public class CartItemTests {
         cartService.removeByCartId(cartId);
         List<CartItem> cartItems = cartService.showByConsumerId(consumerId);
         assertEquals(16, cartItems.size());
+    }
+
+    @Test
+    @DisplayName("PutInCartDto의 정보를 장바구니 상품에 추가")
+    public void test_3() {
+        long consumerId = 2L;
+        PutInCartDto putInCartDto = new PutInCartDto(28L, 17L);
+        cartService.register(putInCartDto, consumerId);
+        List<CartItem> cartItems = cartService.showByConsumerId(consumerId);
+        assertEquals(18, cartItems.size());
     }
 }

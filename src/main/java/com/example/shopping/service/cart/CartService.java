@@ -3,6 +3,7 @@ package com.example.shopping.service.cart;
 import com.example.shopping.dao.cart.CartDao;
 import com.example.shopping.domain.cart.*;
 import com.example.shopping.dto.cart.CartItemDto;
+import com.example.shopping.dto.cart.PutInCartDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -92,5 +93,14 @@ public class CartService {
 
     public void removeByCartId(Long cartId) {
         cartDao.deleteByCartId(cartId);
+    }
+
+    public void register(PutInCartDto putInCartDto, Long consumerId) {
+        CartInsertVo vo = CartInsertVo.builder()
+                .itemId(putInCartDto.getItemId())
+                .itemQuantity(putInCartDto.getItemQuantity())
+                .consumerId(consumerId)
+                .build();
+        cartDao.insert(vo);
     }
 }
