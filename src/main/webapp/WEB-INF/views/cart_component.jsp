@@ -5,6 +5,7 @@
 
  <div class="col-lg-8">
     <div class="shopping__cart__table">
+        <input id="input-err" type="hidden" value="${errMsg}" />
         <table>
             <thead>
                 <tr>

@@ -40,6 +40,10 @@ public class CartController {
         long sessionConsumerId = 2L;//hard coding.
 
         List<CartItem> foundCartItemAll = cartService.showByConsumerId(sessionConsumerId);
+        if(foundCartItemAll.isEmpty()) {
+            cart_log.info("foundCartItemAll is null");
+            model.addAttribute("errMsg", "장바구니에 담긴 상품이 없습니다.");
+        }
 
         pageVo = new CartPageVo(1, sessionConsumerId);
         List<CartItem> foundCartItems = cartService.showByConsumerIdWithPaging(pageVo);

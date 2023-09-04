@@ -30,12 +30,18 @@ public class CartAjaxController {
     public String showComponent(Model model, HttpSession session) {
         cart_log.info("Cart Component here");
         long sessionConsumerId = 2L;//hard coding.
+
         List<CartItem> foundCartItemAll = cartService.showByConsumerId(sessionConsumerId);
+        if(foundCartItemAll.isEmpty()) {
+            cart_log.info("foundCartItemAll is null");
+            model.addAttribute("errMsg", "장바구니에 담긴 상품이 없습니다.");
+        }
         List<CartItem> foundCartItems = cartService.showByConsumerIdWithPaging(pageVo);
         Set<Long> excludedSet = (HashSet<Long>)session.getAttribute("excludedSet");
 
         List<CartItemDto> foundItemDtoAll = cartService.mapToDto(foundCartItemAll, excludedSet);
         List<CartItemDto> foundItemDtos = cartService.mapToDto(foundCartItems, excludedSet);
+
 
         CartPager pager = cartService.setUpPaging(pageVo, foundCartItemAll.size());
         model.addAttribute("foundItemDtoAll", foundItemDtoAll);
