@@ -27,4 +27,8 @@
         SET item_quantity=#{itemQuantity}
         WHERE cart_id=#{cartId}
     </update>
+    <delete id="deleteByCartId" parameterType="Long">
+        DELETE FROM cart_item
+        WHERE cart_id=#{_parameter}
+    </delete>
 </mapper>

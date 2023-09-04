@@ -89,4 +89,8 @@ public class CartService {
         pager.setUpCartItemSize(size);
         return pager;
     }
+
+    public void removeByCartId(Long cartId) {
+        cartDao.deleteByCartId(cartId);
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,12 +25,20 @@ public class CartItemTests {
 
     @BeforeEach
     public void setUpTestData() throws SQLException {
-        jdbcTemplate.execute("INSERT INTO cart_item VALUES(5,9,3,2), (12,1,1,2)");
+        jdbcTemplate.execute("TRUNCATE cart_item");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(5,9,3,2), (12,1,1,2), (13, 10, 2, 2), (14, 3, 4, 2), (15, 28, 5, 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(16,1,6,2), (17,1,7,2), (18, 12, 8, 2), (19, 2, 9, 2), (20, 5, 10, 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(21,4,11,2), (22,1,12,2), (23, 2, 13, 2), (24, 12, 14, 2), (25, 3, 15, 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(26,6,16,2), (27,1,17,2);");
     }
 
     @AfterEach
     public void tearDownTestData() throws SQLException {
-        jdbcTemplate.execute("DELETE FROM cart_item");
+        jdbcTemplate.execute("TRUNCATE cart_item");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(5,9,3,2), (12,1,1,2), (13, 10, 2, 2), (14, 3, 4, 2), (15, 28, 5, 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(16,1,6,2), (17,1,7,2), (18, 12, 8, 2), (19, 2, 9, 2), (20, 5, 10, 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(21,4,11,2), (22,1,12,2), (23, 2, 13, 2), (24, 12, 14, 2), (25, 3, 15, 2)");
+        jdbcTemplate.execute("INSERT INTO cart_item VALUES(26,6,16,2), (27,1,17,2);");
     }
 
     @Test
@@ -41,5 +50,15 @@ public class CartItemTests {
         cartService.modifyItemQuantity(cartId, itemQuantity+2);
         CartItem updatedCartItem = cartService.showByCartId(cartId);
         assertEquals(11L, updatedCartItem.getItemQuantity());
+    }
+
+    @Test
+    @DisplayName("cart_id로 장바구니 상품 삭제")
+    public void test_2() {
+        long cartId = 3L;
+        long consumerId = 2L;
+        cartService.removeByCartId(cartId);
+        List<CartItem> cartItems = cartService.showByConsumerId(consumerId);
+        assertEquals(16, cartItems.size());
     }
 }
