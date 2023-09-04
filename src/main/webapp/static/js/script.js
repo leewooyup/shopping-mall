@@ -34,7 +34,7 @@ $(function() {
     $(".page-no").on("click", function() {
         let nowPage = $(this).data("page");
         $.ajax({
-            url: "/sm/c/api/page",
+            url: "/cart/api/page",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage}),
             contentType: "application/json",
@@ -51,7 +51,7 @@ $(function() {
         let endPage = parseInt($("#page-end").val());
         let nowPage = endPage + 1;
         $.ajax({
-            url: "/sm/c/api/page",
+            url: "/cart/api/page",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage}),
             contentType: "application/json",
@@ -68,7 +68,7 @@ $(function() {
         let beginPage = parseInt($("#page-begin").val());
         let nowPage = beginPage - 1;
         $.ajax({
-            url: "/sm/c/api/page",
+            url: "/cart/api/page",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage}),
             contentType: "application/json",
@@ -90,7 +90,7 @@ $(function() {
             let nowPage = $("#page-now").val();
             $.LoadingOverlay("show");
             $.ajax({
-                url: "/sm/c/api/delete",
+                url: "/cart/api/delete",
                 type: "POST",
                 data: JSON.stringify({"nowPage": nowPage, "cartId": cart}),
                 contentType: "application/json",
@@ -120,7 +120,7 @@ $(function() {
         }
         $.LoadingOverlay("show");
         $.ajax({
-            url: "sm/c/api/update",
+            url: "cart/api/update",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity": val}),
             contentType: "application/json",
@@ -144,7 +144,7 @@ $(function() {
         val = val + 1;
         $.LoadingOverlay("show");
         $.ajax({
-            url: "/sm/c/api/update",
+            url: "/cart/api/update",
             type: "POST",
             data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity": val}),
             contentType: "application/json",
@@ -171,7 +171,7 @@ $(function() {
             }
             $.LoadingOverlay("show");
             $.ajax({
-                url: "/sm/c/api/update",
+                url: "/cart/api/update",
                 type: "POST",
                 data: JSON.stringify({"nowPage": nowPage, "cartId": cart, "itemQuantity" : val}),
                 contentType: "application/json",
@@ -196,7 +196,7 @@ $(function() {
         if(!$(checkbox).is(":checked")) { //체크 풀었을 때
             console.log("excluded: ", cur); //체크가 안된 itemId를 감지
             $.ajax({
-                url: "/sm/c/api/v1",
+                url: "/cart/api/uncheck",
                 type: "POST",
                 data: JSON.stringify({ "nowPage": nowPage, "excludedItemId" : cur}),
                 contentType: "application/json",
@@ -210,7 +210,7 @@ $(function() {
             });
         } else { //체크했을 때
             $.ajax({
-                url: "/sm/c/api/v2",
+                url: "/cart/api/check",
                 type: "POST",
                 data: JSON.stringify({ "nowPage": nowPage, "includedItemId" : cur}),
                 contentType: "application/json",
