@@ -50,7 +50,7 @@
                             <div><fmt:formatNumber value="${cartItem.subTotalPrice}" /></div>
                         </div>
                     </td>
-                    <td><i class="btn-delete fa fa-close"></i></td>
+                    <td><i class="btn-delete fa fa-close" data-id="${cartItem.cartId}"></i></td>
                 </tr>
             </c:forEach>
             </tbody>

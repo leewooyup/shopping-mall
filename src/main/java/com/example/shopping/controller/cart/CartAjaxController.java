@@ -101,4 +101,16 @@ public class CartAjaxController {
         pageVo = new CartPageVo(nowPage, sessionConsumerId);
         return "redirect:/sm/c/api/get";
     }
+
+    @PostMapping("/api/delete")
+    public String removeItem(@RequestBody Map<String, String> requestData) {
+        Long sessionConsumerId = 2L;//hard coding.
+        int cartIdInt = Integer.parseInt((String)requestData.get("cartId"));
+        int nowPage = Integer.parseInt((String)requestData.get("nowPage"));
+        long cartId = Long.valueOf(cartIdInt);
+        cart_log.info("cartId: " + cartId);
+        cartService.removeByCartId(cartId);
+        pageVo = new CartPageVo(nowPage, sessionConsumerId);
+        return "redirect:/sm/c/api/get";
+    }
 }

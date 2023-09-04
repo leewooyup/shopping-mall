@@ -1,6 +1,4 @@
 $(function() {
-//    let nowPageGlobal = parseInt($("#page-now").val());
-
     //pagination.
     $(".page-no").on("click", function() {
         let nowPage = $(this).data("page");
@@ -53,6 +51,31 @@ $(function() {
             }
         });
     });
+
+    //x button click -> delete.
+    $(".btn-delete").on("click", function() {
+        let res = confirm("해당 상품을 장바구니에서 제거하시겠습니까?");
+        if(res) {
+            let cart = $(this).data("id");
+            let nowPage = $("#page-now").val();
+            $.LoadingOverlay("show");
+            $.ajax({
+                url: "/sm/c/api/delete",
+                type: "POST",
+                data: JSON.stringify({"nowPage": nowPage, "cartId": cart}),
+                contentType: "application/json",
+                success: function(result) {
+                    $("#std-parents").html(result);
+                },
+                error: function(xhr, err, status) {
+                    console.log(xhr.responseText);
+                    alert(err + "(이)가 발생했습니다: " + status);
+                }
+            });
+            $.LoadingOverlay("hide");
+        }
+    });
+
     //item quantity increase, decrease input
     $(".btn-decrease").on("click", function() {
         let nowPage = parseInt($("#page-now").val());
