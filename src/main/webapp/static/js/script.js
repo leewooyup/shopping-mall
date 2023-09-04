@@ -112,6 +112,8 @@ $(function() {
         let inputSec = ".input-quantity-" + cur;
         let val = parseInt($(inputSec).val());
         val = val + 1;
+        console.log("cur: ", cur);
+        console.log("increase val: ", val);
         $.LoadingOverlay("show");
         $.ajax({
             url: "/sm/c/api/update",
