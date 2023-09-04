@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
     @GetMapping("/sign")
     private String showSignPage() {
-        return "login";
+        return "sign";
     }
 
     @PostMapping("/sign-in")
